@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Profile Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="../icons/icon32.png" alt="Logo" class="logo-img">
+        <div>
+          <h1>IG Profile Extractor</h1>
+          <span class="subtitle">→ NotebookLM</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- STATUS BAR -->
+    <div id="status-bar" class="status-bar status-idle">
+      <span id="status-icon" class="status-icon">⏸️</span>
+      <span id="status-text">Aguardando...</span>
+    </div>
+
+    <!-- NOT ON INSTAGRAM WARNING -->
+    <div id="not-instagram" class="warning-card hidden">
+      <div class="warning-icon">⚠️</div>
+      <p>Navegue até um <strong>perfil público</strong> do Instagram para começar.</p>
+      <p class="hint">Ex: instagram.com/prefeituraubatuba</p>
+    </div>
+
+    <!-- PROFILE DETECTED -->
+    <div id="profile-detected" class="profile-card hidden">
+      <div class="profile-info">
+        <div class="profile-avatar" id="profile-avatar">👤</div>
+        <div class="profile-details">
+          <div class="profile-name" id="profile-name">—</div>
+          <div class="profile-username" id="profile-username">@—</div>
+          <div class="profile-stats" id="profile-stats">
+            <span>— posts</span>
+            <span>— seguidores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES -->
+    <div id="config-section" class="config-section hidden">
+      <h2 class="section-title">⚙️ Configurações</h2>
+      
+      <div class="config-group">
+        <label class="config-label" for="max-posts">
+          Limite de posts
+          <span class="config-hint">(0 = todos)</span>
+        </label>
+        <input type="number" id="max-posts" class="config-input" value="0" min="0" step="10" placeholder="0 = todos">
+      </div>
+
+      <div class="config-group">
+        <label class="config-label toggle-label">
+          <input type="checkbox" id="chk-ocr" class="config-checkbox">
+          <span class="toggle-slider"></span>
+          Incluir texto das imagens (accessibility)
+        </label>
+      </div>
+
+      <div class="config-group">
+        <label class="config-label toggle-label">
+          <input type="checkbox" id="chk-chrono" class="config-checkbox" checked>
+          <span class="toggle-slider"></span>
+          Ordem cronológica (mais antigo primeiro)
+        </label>
+      </div>
+
+      <div class="config-group">
+        <label class="config-label" for="format-select">
+          Formato do documento
+        </label>
+        <select id="format-select" class="config-select">
+          <option value="markdown" selected>Markdown (.md) — recomendado</option>
+          <option value="text">Texto plano (.txt)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- BOTÃO DE AÇÃO -->
+    <div id="action-section" class="action-section hidden">
+      <button id="btn-extract" class="btn btn-primary btn-extract">
+        <span class="btn-icon">🚀</span>
+        <span class="btn-text">Extrair Perfil Completo</span>
+      </button>
+      <button id="btn-stop" class="btn btn-danger hidden">
+        <span class="btn-icon">⏹️</span>
+        <span class="btn-text">Parar Extração</span>
+      </button>
+    </div>
+
+    <!-- PROGRESSO -->
+    <div id="progress-section" class="progress-section hidden">
+      <div class="progress-header">
+        <span id="progress-stage" class="progress-stage">Extraindo...</span>
+        <span id="progress-count" class="progress-count">0/0</span>
+      </div>
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+      </div>
+      <div id="progress-message" class="progress-message">Iniciando...</div>
+      
+      <!-- Pipeline Visual -->
+      <div class="pipeline-steps">
+        <div class="step" id="step-profile" data-step="profile">
+          <span class="step-icon">👤</span>
+          <span class="step-label">Perfil</span>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step" id="step-posts" data-step="posts">
+          <span class="step-icon">📋</span>
+          <span class="step-label">Posts</span>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step" id="step-document" data-step="document">
+          <span class="step-icon">📄</span>
+          <span class="step-label">Doc</span>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step" id="step-done" data-step="done">
+          <span class="step-icon">✅</span>
+          <span class="step-label">Download</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="result-section" class="result-section hidden">
+      <div class="result-card">
+        <div class="result-icon">✅</div>
+        <h3>Extração Concluída!</h3>
+        <div id="result-summary" class="result-summary">
+          <!-- Preenchido via JS -->
+        </div>
+        <div class="result-actions">
+          <button id="btn-open-notebooklm" class="btn btn-secondary">
+            📓 Abrir NotebookLM
+          </button>
+          <button id="btn-new-extraction" class="btn btn-outline">
+            🔄 Nova Extração
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERRO -->
+    <div id="error-section" class="error-section hidden">
+      <div class="error-card">
+        <div class="error-icon">❌</div>
+        <p id="error-message">Ocorreu um erro.</p>
+        <button id="btn-retry" class="btn btn-outline">🔄 Tentar Novamente</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span>v1.0.0 • Ferramenta para jornalismo investigativo</span>
+      <a href="https://notebooklm.google.com/" target="_blank" class="footer-link">📓 NotebookLM</a>
+    </footer>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

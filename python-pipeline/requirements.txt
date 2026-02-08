@@ -1,0 +1,21 @@
+# Instagram Profile Extractor → NotebookLM Pipeline
+# Instalar: pip install -r requirements.txt
+
+# === EXTRAÇÃO ===
+instaloader>=4.10       # Extração robusta de dados do Instagram
+
+# === DOWNLOAD / HTTP ===
+httpx>=0.27             # HTTP client moderno (async-ready, HTTP/2)
+
+# === PROCESSAMENTO DE IMAGENS ===
+Pillow>=10.0            # Manipulação e pré-processamento de imagens
+
+# === OCR ===
+easyocr>=1.7            # OCR principal (deep learning, multilingual)
+# pytesseract>=0.3.10   # OCR fallback (descomentar se usar Tesseract)
+# NOTA: Tesseract requer instalação separada do binário:
+#   Ubuntu: sudo apt install tesseract-ocr tesseract-ocr-por
+#   macOS:  brew install tesseract tesseract-lang
+
+# === UTILIDADES ===
+# json, csv, os, logging, datetime, argparse — stdlib, não precisa instalar
