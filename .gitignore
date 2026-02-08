@@ -1,5 +1,32 @@
+# Dependencies
 node_modules/
+
+# Runtime
 .pm2/
 *.log
 *.pid
+pids/
+logs/
+
+# Build/Dev files
+serve.js
+ecosystem.config.cjs
+preview/
+*.zip
+*.tar.gz
+*.backup
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+data/
+.wrangler/
+
+# Environment
+.env
+.dev.vars
