@@ -15,6 +15,12 @@
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
 </p>
 
+<p align="center">
+	<img src="https://github.com/elton2024br/instanotLM/actions/workflows/python-package-conda.yml/badge.svg" alt="Build Status">
+	<img src="https://img.shields.io/github/contributors/elton2024br/instanotLM" alt="Contributors">
+	<img src="https://img.shields.io/github/discussions/elton2024br/instanotLM" alt="Discussions">
+</p>
+
 ---
 
 ## 🎯 O que é?
